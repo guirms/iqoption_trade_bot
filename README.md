@@ -13,6 +13,6 @@ A project of my own that performs purchases and sales at the broker IQOption, ba
 
 ## About the API
 
-As i said before, i used the iqoptionapi [Flex Grid](http://exemplo.com/)
+As i said before, i used the [iqoptionapi](http://exemplo.com/)
 
 
