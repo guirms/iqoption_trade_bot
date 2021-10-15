@@ -14,10 +14,19 @@ A project of my own that performs purchases and sales at the broker IQOption, ba
 ## Themes
 
 <!--ts-->
-   * [About the API](#)
- 
+   * [Sobre](#Sobre)
+   * [Tabela de Conteudo](#tabela-de-conteudo)
+   * [Instalação](#instalacao)
+   * [Como usar](#como-usar)
+      * [Pre Requisitos](#pre-requisitos)
+      * [Local files](#local-files)
+      * [Remote files](#remote-files)
+      * [Multiple files](#multiple-files)
+      * [Combo](#combo)
+   * [Tests](#testes)
+   * [Tecnologias](#tecnologias)
 <!--te-->
 
-## About the API
+#tecnologias
 
 
