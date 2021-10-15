@@ -14,8 +14,8 @@ A project of my own that performs purchases and sales at the broker IQOption, ba
 Tabela de conteúdos
 =================
 <!--ts-->
-   * [Sobre](#)
+   * [API](#About the API)
  
 <!--te-->
 
-## Sobare
+## About the API
