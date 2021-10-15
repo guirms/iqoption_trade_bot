@@ -11,27 +11,13 @@
 
 A project of my own that performs purchases and sales at the broker IQOption, based on peaks formed by SMA moving averages
 
-Tabela de conteúdos
-=================
+## Themes
+
 <!--ts-->
-   * [About the API](#a)
+   * [About the API](#)
  
 <!--te-->
 
 ## About the API
-as
-asa
-sa
-s
-as
-a
-s
-s
-as
-a
-s
-s
 
-as
-s
 
