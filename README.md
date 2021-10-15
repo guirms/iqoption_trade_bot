@@ -11,22 +11,8 @@
 
 A project of my own that performs purchases and sales at the broker IQOption, based on peaks formed by SMA moving averages
 
-## Themes
+## About the API
 
-<!--ts-->
-   * [Sobre](#Sobre)
-   * [Tabela de Conteudo](#tabela-de-conteudo)
-   * [Instalação](#instalacao)
-   * [Como usar](#como-usar)
-      * [Pre Requisitos](#pre-requisitos)
-      * [Local files](#local-files)
-      * [Remote files](#remote-files)
-      * [Multiple files](#multiple-files)
-      * [Combo](#combo)
-   * [Tests](#testes)
-   * [Tecnologias](#tecnologias)
-<!--te-->
-
-#tecnologias
+As i said before, i used the iqoptionapi [Flex Grid](http://exemplo.com/)
 
 
