@@ -5,7 +5,7 @@
 
 >Language used: Python 🐍
 
->API used: https://github.com/Lu-Yi-Hsun/iqoptionapi <i>(all credits to him)</i>
+>API used: https://github.com/Lu-Yi-Hsun/iqoptionapi <i>(credits to him)</i>
 
 
 *A project of my own that performs purchases and sales at the broker IQOption, based on peaks formed by SMA moving averages*
