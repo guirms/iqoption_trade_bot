@@ -53,7 +53,13 @@ To understand the code, we need to understand the two files that accompany the m
 
 >The fourth line talks about management, which is explained in the topic _how the bot works_.
 
-The second file has only 2 lines, where the first one talks about your balance and the second one talks about the date the bot saved your balance.
+The second file has only 2 lines.
+ 
+![image](https://user-images.githubusercontent.com/85650237/137954831-382b8fd1-d78b-4d82-b29b-261c5157db48.png)
+
+>The first one talks about your balance.
+
+>Second one talks about the date the bot saved your balance.
 
 ## How the code works
 First, we declare the libraries and the API and open the txt file containing the user account information and read it. With this information, we can connect the IQOption account whith the API by the funcion _connect_:
