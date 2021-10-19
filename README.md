@@ -62,7 +62,7 @@ The second file has only 2 lines.
 >Second one talks about the date the bot saved your balance.
 
 ## How the code works
-First, we declare the libraries and the API and open the txt file containing the user account information and read it. With this information, we can connect the IQOption account whith the API by the funcion _connect_:
+* First, we declare the libraries and the API and open the txt file containing the user account information and read it. With this information, we can connect the IQOption account whith the API by the funcion _connect_ and define whether we are going to trade on a demo or real account by the function _change_balance_:
 ```python
 from iqoptionapi.stable_api import IQ_Option
 import logging, json, sys, time
