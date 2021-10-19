@@ -38,9 +38,9 @@ As you can see, we have many reference lines in a short period of time, and if w
 * When the analysis is restarted, the same parity will not be parsed unless all parities currently available have already been parsed.
 
 ## Management
-The bot uses a management baseed on soros, stopping with 1 loss or 2 gains in a row. The initial value of trade is 2% of your balance. If this value is less than 2, the initial value will be 2.10. In soros management, if we get a gain, the next trade will have the same value as the first + the profit of this same trade.
+The bot uses a management baseed on soros, stopping with 1 loss or 2 gains in a row. The initial value of trade is 2% of your balance. If this value is less than $2, the initial value will be $2.10. In soros management, if we get a gain, the next trade will have the same value as the first + the profit of this same trade. Your trading value will be automatically updated every 30 days automatically.
 
-## How the code works
+## How add-on files work
 To understand the code, we need to understand the two files that accompany the main code. The first is _userdata_, inside of it, we have 5 lines:
 
 ![image](https://user-images.githubusercontent.com/85650237/137864085-5ade0e87-7810-4da2-89cf-05dd275ee721.png)
@@ -52,10 +52,11 @@ To understand the code, we need to understand the two files that accompany the m
 >In the third you need to write which type of account you want the bot to trade (real / demo).
 
 >The fourth line talks about management, which is explained in the topic _how the bot works_.
- 
 
+The second file has only 2 lines, where the first one talks about your balance and the second one talks about the date the bot saved your balance.
 
-First, we declare the libraries and the API and open the txt file containing the user account information and read it. With this information, we can connect the IQOption account whith the API by the funcion:
+## How the code works
+First, we declare the libraries and the API and open the txt file containing the user account information and read it. With this information, we can connect the IQOption account whith the API by the funcion _connect_:
 ```python
 from iqoptionapi.stable_api import IQ_Option
 import logging, json, sys, time
