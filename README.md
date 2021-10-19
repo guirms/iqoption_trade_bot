@@ -40,11 +40,14 @@ As you can see, we have many reference lines in a short period of time, and if w
 ## How the code works
 To understand the code, we need to understand the two files that accompany the main code. The first is _userdata_, inside of it, we have 5 lines:
 
-![image](https://user-images.githubusercontent.com/85650237/137863224-478cdf59-309a-4ebd-b8d9-f35e13e2b888.png)
+![image](https://user-images.githubusercontent.com/85650237/137864085-5ade0e87-7810-4da2-89cf-05dd275ee721.png)
 
 >In the first one you need to write your iq option email.
+
 >In the second one you need to write your iq option passord.
+
 >In the third you need to write which type of account you want the bot to trade.
+
 >The fourth line talks about management, which is explained in the topic _how the bot works_.
  
 
