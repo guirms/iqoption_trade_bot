@@ -37,6 +37,9 @@ As you can see, we have many reference lines in a short period of time, and if w
 * With every victory restart the analysis.
 * When the analysis is restarted, the same parity will not be parsed unless all parities currently available have already been parsed.
 
+## Management
+The bot uses a management baseed on soros, stopping with 1 loss or 2 gains in a row. The initial value of trade is 2% of your balance. If this value is less than 2, the initial value will be 2.10. In soros management, if we get a gain, the next trade will have the same value as the first + the profit of this same trade.
+
 ## How the code works
 To understand the code, we need to understand the two files that accompany the main code. The first is _userdata_, inside of it, we have 5 lines:
 
@@ -46,7 +49,7 @@ To understand the code, we need to understand the two files that accompany the m
 
 >In the second one you need to write your iq option passord.
 
->In the third you need to write which type of account you want the bot to trade.
+>In the third you need to write which type of account you want the bot to trade (real / demo).
 
 >The fourth line talks about management, which is explained in the topic _how the bot works_.
  
