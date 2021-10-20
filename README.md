@@ -92,7 +92,93 @@ while not API.check_connect():
 print('Conectado com sucesso')
 ```
 
+* After that, we declare the variables and check the date of the txt file to know if it needs to be updated to define our initial trade amount.We have also created two functions that will help us to check if the current candle is right for some trade.
 
+```python
+arquivo1 = 'managementdata.txt'
+horario_inicial = datetime.now().strftime('%H: %M :%S')
+win_lista = []
+loss_lista = []
+remover = []
+periodo = 5
+tempo_segundos = 300
+entradas = 0
+contador_par = 0
+payout = 0
+loss_seguidos = 0
+parar = 0
+res_valores = 0
+sl = 1
+sg = 2
+gerenciamento = 1
+print('Gerenciamento 2x1')
+
+def verificar_saldo():
+    saldo_atual = str(API.get_balance())
+    def linha_txt(linha_especifica, texto):
+        file = open(arquivo1, 'r')
+        lines = file.readlines()
+        file.close()
+
+        lines.insert(linha_especifica, texto + "\n")
+        file = open(arquivo1, 'w')
+        file.writelines(lines)
+        file.close()
+
+    def excluir_linha(posicao):
+        file = open(arquivo1, 'r')
+        data = file.readlines()
+        data[posicao] = '\n'
+        file = open(arquivo1, 'w')
+        file.writelines(data)
+
+
+    file = open(arquivo1, 'r')
+    lines = file.readlines()
+    if not '-' in lines[0]:
+        linha_txt(0, str(date.today()))
+        linha_txt(1, saldo_atual)
+        saldo = float(saldo_atual)
+        excluir_linha(2)
+        excluir_linha(3)
+
+    else:
+        d_atual = str(date.today())
+        d1 = datetime.strptime(str(lines[0]).strip(), '%Y-%m-%d')
+        d2 = datetime.strptime(str(d_atual), '%Y-%m-%d')
+        quantidade_dias = abs((d2 - d1).days)
+        if quantidade_dias >= 10:
+            linha_txt(0, str(date.today()))
+            linha_txt(1, saldo_atual)
+            saldo = float(saldo_atual)
+            excluir_linha(2)
+            excluir_linha(3)
+
+        else:
+            saldo = float(lines[1])
+
+    return(saldo)
+   
+valor = verificar_saldo() * 0.02 / sl
+
+saldo_banca = API.get_balance()
+if valor <= 2:
+    valor = 2.10
+valor_inicial = valor
+print(f'Banca: {verificar_saldo()} ; Valor de entrada: {round(valor, 2)}')
+
+def esperar(delay=0):
+    time.sleep(60 - int(datetime.now().strftime('%S')) + delay)
+
+def entrada():
+    sec_atual = int(datetime.now().strftime('%S'))
+    while sec_atual < 30:
+        return True
+```
+* Here we check the parity we will trade with. We have to check 3 things after and before checking which paritys are open by the function _get_all_open_time()_:
+> If this parity has been analyzed before (unless all others have already been analyzed as well).
+> If this parity has more than 70% payout
+> If we haven't reached our stop gain or stop loss.
 
 
 
