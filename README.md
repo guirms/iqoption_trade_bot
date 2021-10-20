@@ -175,9 +175,11 @@ def entrada():
     while sec_atual < 30:
         return True
 ```
-* Here we check the parity we will trade with. We have to check 3 things after and before checking which paritys are open by the function _get_all_open_time()_:
+* Here we check the parity we will trade with. We have to check 3 things before and after checking which paritys are open by the function _get_all_open_time()_:
 > If this parity has been analyzed before (unless all others have already been analyzed as well).
-> If this parity has more than 70% payout
+
+> If this parity has more than 70% payout.
+
 > If we haven't reached our stop gain or stop loss.
 
 
