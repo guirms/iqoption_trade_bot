@@ -110,7 +110,7 @@ def rodar():
         while sec_atual < 30:
             return True
 
-    while len(win_lista) < sg and len(loss_lista) < sl and loss_seguidos < 3 and parar != 1:
+    while len(win_lista) < sg and len(loss_lista) < sl and parar != 1:
         print('Iniciando análise\n')
         par_aberto = API.get_all_open_time()
         qtd_pares = 0
