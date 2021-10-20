@@ -225,18 +225,18 @@ while len(win_lista) < sg and len(loss_lista) < sl and parar != 1:
 
 ```python
  API.start_candles_stream(par, tempo_segundos, 200)
-        velas = API.get_realtime_candles(par, tempo_segundos)
-        valores = {'open': np.array([]), 'high': np.array([]), 'low': np.array([]), 'close': np.array([]),
-                   'volume': np.array([])}
+ velas = API.get_realtime_candles(par, tempo_segundos)
+ valores = {'open': np.array([]), 'high': np.array([]), 'low': np.array([]), 'close': np.array([]),
+            'volume': np.array([])}
 
-        for x in velas:
-            valores['open'] = np.append(valores['open'], velas[x]['open'])
-            valores['high'] = np.append(valores['open'], velas[x]['max'])
-            valores['low'] = np.append(valores['open'], velas[x]['min'])
-            valores['close'] = np.append(valores['open'], velas[x]['close'])
-            valores['volume'] = np.append(valores['open'], velas[x]['volume'])
+ for x in velas:
+     valores['open'] = np.append(valores['open'], velas[x]['open'])
+     valores['high'] = np.append(valores['open'], velas[x]['max'])
+     valores['low'] = np.append(valores['open'], velas[x]['min'])
+     valores['close'] = np.append(valores['open'], velas[x]['close'])
+     valores['volume'] = np.append(valores['open'], velas[x]['volume'])
 
-        calculo_sma = SMA(valores, timeperiod=periodo)
+ calculo_sma = SMA(valores, timeperiod=periodo)
 ```
 * The next step is to build the "heart" of the code, the reference lines. These lines follow a basic logic: we want tops and bottoms, right? So to get this information, we'll check all the latest micro bullish and bearish trends. In addition, we'll look at when this bullish or bearish trend was reversed.
 That price during trend reversal is what we are looking for. These prices will be added in a tuple. You can also change some values ​​of this part of the code in order to get more "defined" tops and bottoms or with less difference in price. Basically, we repeat this part of the code 2 times,
@@ -245,114 +245,114 @@ If we have 2 pips difference between one reference line and another, we exclude 
 
 ```python
 API.start_candles_stream(par, tempo_segundos, 1)
-        vela = API.get_realtime_candles(par, tempo_segundos)
-        for velas in vela:
-            preco_atual = vela[velas]['close']
+vela = API.get_realtime_candles(par, tempo_segundos)
+for velas in vela:
+    preco_atual = vela[velas]['close']
 
-        count = 0
-        xy = 0
-        taxa = []
-        sup = []
-        res = []
-        while xy <= 10:
-            printar = 0
-            xy += 1
-            if xy == len(calculo_sma):
-                xy = len(calculo_sma) - 1
-            else:
-                for x in range(20 * (xy - 1), 20 * xy):
-                    xx = x - 1
-                    try:
-                        if not math.isnan(calculo_sma[x]):
-                            count += 1
-                            if count >= 15:
-                                count = 0
-                                break
-                            else:
-                                while calculo_sma[x] > calculo_sma[x + 1]:
-                                    if calculo_sma[x + 8] - calculo_sma[x] >= 0.00003 and printar == 0:
-                                        menor_t = 999999
-                                        for min in range(x, x + 6):
-                                            if calculo_sma[min] < menor_t:
-                                                menor_t = calculo_sma[min]
-                                                posicao = min
+count = 0
+xy = 0
+taxa = []
+sup = []
+res = []
+while xy <= 10:
+    printar = 0
+    xy += 1
+    if xy == len(calculo_sma):
+        xy = len(calculo_sma) - 1
+    else:
+        for x in range(20 * (xy - 1), 20 * xy):
+            xx = x - 1
+            try:
+                if not math.isnan(calculo_sma[x]):
+                    count += 1
+                    if count >= 15:
+                        count = 0
+                        break
+                    else:
+                        while calculo_sma[x] > calculo_sma[x + 1]:
+                            if calculo_sma[x + 8] - calculo_sma[x] >= 0.00003 and printar == 0:
+                                menor_t = 999999
+                                for min in range(x, x + 6):
+                                    if calculo_sma[min] < menor_t:
+                                        menor_t = calculo_sma[min]
+                                        posicao = min
 
-                                        if calculo_sma[posicao + 4] - menor_t >= 0.00002:
-                                            taxa.append(round(menor_t, 5))
-                                            printar = 1
+                                if calculo_sma[posicao + 4] - menor_t >= 0.00002:
+                                    taxa.append(round(menor_t, 5))
+                                    printar = 1
 
-                                    elif calculo_sma[x + 3] - calculo_sma[x] >= 0.00003 and printar == 0:
-                                        menor_t = 999999
-                                        for min in range(x, x + 6):
-                                            if calculo_sma[min] < menor_t:
-                                                menor_t = calculo_sma[min]
-                                                posicao = min
+                            elif calculo_sma[x + 3] - calculo_sma[x] >= 0.00003 and printar == 0:
+                                menor_t = 999999
+                                for min in range(x, x + 6):
+                                    if calculo_sma[min] < menor_t:
+                                        menor_t = calculo_sma[min]
+                                        posicao = min
 
-                                        if calculo_sma[posicao + 3] - menor_t >= 0.00002:
-                                            taxa.append(round(menor_t, 5))
-                                            printar = 1
-                                    break
+                                if calculo_sma[posicao + 3] - menor_t >= 0.00002:
+                                    taxa.append(round(menor_t, 5))
+                                    printar = 1
+                            break
 
-                    except:
-                        pass
+            except:
+                pass
 
-        for taxas in range(len(taxa)):
-            if preco_atual - taxa[taxas] >= 0.00002:
-                sup.append(taxa[taxas])
+for taxas in range(len(taxa)):
+    if preco_atual - taxa[taxas] >= 0.00002:
+        sup.append(taxa[taxas])
 
-            elif taxa[taxas] - preco_atual >= 0.00002:
-                res.append(taxa[taxas])
+    elif taxa[taxas] - preco_atual >= 0.00002:
+        res.append(taxa[taxas])
 
-        count = 0
-        xy = 0
-        taxa_m = []
-        while xy <= 10:
-            printar = 0
-            xy += 1
-            if xy == len(calculo_sma):
-                xy = len(calculo_sma) - 1
-            else:
-                for x in range(20 * (xy - 1), 20 * xy):
-                    xx = x - 1
-                    try:
-                        if not math.isnan(calculo_sma[x]):
-                            count += 1
-                            if count >= 15:
-                                count = 0
-                                break
-                            else:
-                                while calculo_sma[x] < calculo_sma[x + 1]:
-                                    if calculo_sma[x] - calculo_sma[x + 8] >= 0.00003 and printar == 0:
-                                        maior_t = 0
-                                        for max in range(x, x + 6):
-                                            if maior_t < calculo_sma[max]:
-                                                maior_t = calculo_sma[max]
-                                                posicao = max
+count = 0
+xy = 0
+taxa_m = []
+while xy <= 10:
+    printar = 0
+    xy += 1
+    if xy == len(calculo_sma):
+        xy = len(calculo_sma) - 1
+    else:
+        for x in range(20 * (xy - 1), 20 * xy):
+            xx = x - 1
+            try:
+                if not math.isnan(calculo_sma[x]):
+                    count += 1
+                    if count >= 15:
+                        count = 0
+                        break
+                    else:
+                        while calculo_sma[x] < calculo_sma[x + 1]:
+                            if calculo_sma[x] - calculo_sma[x + 8] >= 0.00003 and printar == 0:
+                                maior_t = 0
+                                for max in range(x, x + 6):
+                                    if maior_t < calculo_sma[max]:
+                                        maior_t = calculo_sma[max]
+                                        posicao = max
 
-                                        if maior_t - calculo_sma[posicao + 2] >= 0.00002:
-                                            taxa_m.append(round(maior_t, 5))
-                                            printar = 1
+                                if maior_t - calculo_sma[posicao + 2] >= 0.00002:
+                                    taxa_m.append(round(maior_t, 5))
+                                    printar = 1
 
-                                    elif calculo_sma[x] - calculo_sma[x + 4] >= 0.00003 and printar == 0:
-                                        maior_t = 0
-                                        for max in range(x, x + 6):
-                                            if maior_t < calculo_sma[max]:
-                                                maior_t = calculo_sma[max]
-                                                posicao = max
+                            elif calculo_sma[x] - calculo_sma[x + 4] >= 0.00003 and printar == 0:
+                                maior_t = 0
+                                for max in range(x, x + 6):
+                                    if maior_t < calculo_sma[max]:
+                                        maior_t = calculo_sma[max]
+                                        posicao = max
 
-                                        if maior_t - calculo_sma[posicao + 3] >= 0.00002:
-                                            taxa_m.append(round(maior_t, 5))
-                                            printar = 1
-                                    break
-                    except:
-                        pass
+                                if maior_t - calculo_sma[posicao + 3] >= 0.00002:
+                                    taxa_m.append(round(maior_t, 5))
+                                    printar = 1
+                            break
+            except:
+                pass
 
-        for taxass in range(len(taxa_m)):
-            if preco_atual - taxa_m[taxass] >= 0.00002:
-                sup.append(taxa_m[taxass])
+for taxass in range(len(taxa_m)):
+    if preco_atual - taxa_m[taxass] >= 0.00002:
+        sup.append(taxa_m[taxass])
 
-            elif taxa_m[taxass] - preco_atual >= 0.00002:
-                res.append(taxa_m[taxass])
+    elif taxa_m[taxass] - preco_atual >= 0.00002:
+        res.append(taxa_m[taxass])
 ```
 
 
