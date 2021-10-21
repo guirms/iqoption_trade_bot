@@ -495,6 +495,34 @@ for taxass in range(len(taxa_m)):
       print(f'Par {par} não ideal para análise, continuando!\n')
       break
 ```
+* That is the last part of the code, where we simply print out some information, like currently time, initial trading time, amount of gains or loss, total profit or loss amount. We have to a _while True_ that serves to keep the code from stopping, because there is some bug in talib library that simply read the SMA function as an error (don't quest me why).
+
+```python
+horario_final = datetime.now().strftime('%H: %M: %S')
+print(f'Horário de início do robô: {horario_inicial} ; Horário final do robô: {horario_final}')
+print(f'Total de win: {len(win_lista)}')
+print(f'Total de loss: {len(loss_lista)}')
+print('Resultado: ', end='')
+if res_valores >= 0:
+    print(f'Lucro de {round(res_valores, 2)}')
+else:
+    print(f'Prejuízo de {abs(round(res_valores, 2))}')
+
+while (True):
+    time.sleep(99)
+```
+
+## Final considerations
+* I hope you understand all the code and more than that, profit from the bot. Please, don't be a bad guy and sell this as your own, i don't want to have to worry about it. 
+
+## Contact me
+* If you want to hire me, ask questions, report a bug, feel free to send me an email: guilhermesantana84@hotmail.com 😉
+
+## Autor
+<img style="border-radius: 50%;" src="https://avatars3.githubusercontent.com/u/380327?s=460&u=61b426b901b8fe02e12019b1fdb67bf0072d4f00&v=4" width="100px;" alt=""/>
+
+
+
 
 
 
