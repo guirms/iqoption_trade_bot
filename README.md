@@ -28,7 +28,7 @@ And of course, you need to create a [iqoption account](https://iq-option.com/lp/
 It's baseed on 5 period SMA moving average, where we are looking for tops and bottoms in M5 candles.
 ![image](https://user-images.githubusercontent.com/85650237/137859098-9368c02b-2df7-401c-abbd-0e9591bef108.png)
 
-As you can see, we have many reference lines in a short period of time, and if we make a buy or sell on any of them we will lose a lot of money. So the secret is to filter the entries so that we only make a buy or sell when all filters are positive for us. That's the reason we have 3 filters in the bot.
+As you can see, we have many reference lines in a short period of time, and if we make a buy or sell on any of them we will lose a lot of money. So the secret is to filter the entries so that we only make a buy or sell when all filters are positive for us. That's the reason we have 7 filters in the bot.
 * Trade only with 1 minute expiration time.
 * Trade only when the current candle is less than 30 seconds long
 * Trade only when payout the payout is equal to or above 70%.
@@ -353,6 +353,147 @@ for taxass in range(len(taxa_m)):
 
     elif taxa_m[taxass] - preco_atual >= 0.00002:
         res.append(taxa_m[taxass])
+```
+* This is where the code analyzes actual trading prices. The condition for starting the analysis is that we need at least one reference for selling and buying lines. If this condition is true, we start reading current prices and expect an ideal opportunity to trade, baseed on ours trade filters:
+> Candle time of at least 30 seconds.
+> Stop gain and loss not yet reached.
+> Analysis time of maximum 30 minutes
+* If parity is in otc and we find an ideal trade oportunity, we will wait until the next minute to actually trade.
+``` python
+ if len(res) >= 1 and len(sup) >= 1:
+    menor_r = 9999
+    menor_s = 0
+    for menorrr in res:
+        if menorrr < menor_r:
+            menor_r = menorrr
+    for menorrrr in sup:
+        if menorrrr > menor_s:
+            menor_s = menorrrr
+
+    print(f'Suporte: {menor_s} ; Resistência: {menor_r}')
+    print(f'\nPar escolhido: {par}')
+
+    print('Resistências:')
+    for resss in res:
+        print(round(resss, 5))
+    print('\nSuportes:')
+    for suppp in sup:
+        print(round(suppp, 5))
+
+    print('-' * 20, '\nAguardando oportunidade ideal de entrada:')
+    hora_agora = datetime.now().strftime('%H: %M: %S')
+    print(f'Horário de início: {hora_agora}')
+    API.start_candles_stream(par, 60, 1)
+    while temporizador <= 1650 and troca < 1 and \
+            (len(win_lista) < sg and len(loss_lista) < sl):
+        temporizador += 1
+        vela = API.get_candles(par, 60, 3, time.time())
+
+        def filtro_1():
+            for taxas_s in sup:
+                for velas in vela:
+                    if velas['max'] >= taxas_s and velas['min'] <= taxas_s:
+                        return(taxas_s)
+
+        def filtro_2():
+            for taxas_r in res:
+                for velas in vela:
+                    if velas['max'] >= taxas_r and velas['min'] <= taxas_r:
+                        return(taxas_r)
+
+        candle = API.get_realtime_candles(par, 60)
+        time.sleep(1)
+        for candles in candle:
+            preco_atual = candle[candles]['close']
+            abertura_inicial = candle[candles]['open']
+
+
+        if troca < 1:
+            for venda in res:
+                if (preco_atual >= venda and abertura_inicial < venda) or (preco_atual <= venda and abertura_inicial > venda) and filtro_2() != venda:
+                    horario = datetime.now().strftime('%H: %M: %S')
+                    print(f'Venda na próxima vela! horário atual: {horario}')
+                    if 'OTC' in par:
+                        esperar()
+                    preco_venda = venda
+                    res.remove(venda)
+                    statuss, id = API.buy_digital_spot_v2(par, valor, 'put', 1)
+                    horario = datetime.now().strftime('%H: %M: %S')
+                    if statuss:
+                        print(
+                            f'Venda em em {par}; Taxa: {round(preco_venda, 5)}; Horário: {horario}; Valor: {round(valor, 2)}; Preço atual: {round(preco_atual, 5)}')
+                        entradas += 1
+                        esperar(3)
+
+                    status, historico = API.get_position_history_v2('digital-option', 1, 0, 0, 0)
+                    for x in historico['positions']:
+                        resultado = float(x['close_profit'])
+
+                    if resultado > 0:
+                        print('Win')
+                        win_lista.append(1)
+                        loss_seguidos = 0
+                        res_valores += resultado - valor
+                        valor = valor + (valor * int(payout) / 100)
+                        troca = 1
+
+                    else:
+                        print('Loss')
+                        loss_lista.append(1)
+                        loss_seguidos += 1
+                        res_valores -= valor
+                        troca += 0.5
+                        valor = valor_inicial
+                    break
+
+            for compra in sup:
+                if (((preco_atual <= compra and abertura_inicial > compra) or
+                        (preco_atual >= compra and abertura_inicial < compra)) and troca < 1
+                        and len(win_lista) < sg and len(loss_lista) < sl and filtro_1() != compra):
+                    if 'OTC' in par:
+                        esperar()
+                    horario = datetime.now().strftime('%H: %M: %S')
+                    print(f'Compra na próxima vela! horário atual: {horario}')
+                    esperar()
+                    preco_compra = compra
+                    sup.remove(compra)
+                    statuss, id = API.buy_digital_spot_v2(par, valor, 'call', 1)
+                    horario = datetime.now().strftime('%H: %M: %S')
+                    if statuss:
+                        print(
+                            f'Compra em em {par}; Taxa: {round(preco_compra, 5)}; Horário: {horario}; Valor: {round(valor, 2)}; Preço atual: {round(preco_atual, 5)}')
+                        entradas += 1
+                        esperar(3)
+
+                    status, historico = API.get_position_history_v2('digital-option', 1, 0, 0, 0)
+                    for x in historico['positions']:
+                        resultado = float(x['close_profit'])
+
+                    if resultado > 0:
+                        print('Win')
+                        win_lista.append(1)
+                        loss_seguidos = 0
+                        res_valores += resultado - valor
+                        if not gerenciamento == '3':
+                            valor = valor + (valor * int(payout) / 100)
+                        troca = 1
+
+                    else:
+                        print('Loss')
+                        loss_lista.append(1)
+                        loss_seguidos += 1
+                        res_valores -= valor
+                        troca += 0.5
+                        if not gerenciamento == '3':
+                            valor = valor_inicial
+                    break
+
+  if troca >= 0.5 or temporizador >= 1650:
+      break
+
+  else:
+      print(f'Par {par} não ideal para análise, continuando!\n')
+      break
 ```
 
 
