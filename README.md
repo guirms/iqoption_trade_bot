@@ -1,4 +1,4 @@
-<h2 align="center">Iqoption trade bot baseed in SMA moving average </h2>
+<h1 align="center">Iqoption trade bot baseed in SMA moving average </h1>
 
 >Status: Completed ✔️ (Without interface)
 
