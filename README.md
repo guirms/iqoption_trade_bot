@@ -2,7 +2,6 @@
 
 >Status: Completed ✔️ (Without interface)
 
-
 >Language used: Python 🐍
 
 >API used: https://github.com/Lu-Yi-Hsun/iqoptionapi <i>(credits to him)</i>
