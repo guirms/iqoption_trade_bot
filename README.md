@@ -6,8 +6,7 @@
 
 >API used: https://github.com/Lu-Yi-Hsun/iqoptionapi <i>(credits to him)</i>
 
-
-*A project of my own that performs purchases and sales at the broker IQOption, based on peaks formed by SMA moving averages*
+#### *A project of my own that performs purchases and sales at the broker IQOption, based on peaks formed by SMA moving averages*
 
 ## Requirements
 Before we start, you will need some donwloads to run the project correctly in your machine. First, you need to install our interpreter [python](https://www.python.org/downloads/). Second, i recommend you use as IDLE [pycharm](https://www.jetbrains.com/pt-br/pycharm/download/) because was the IDLE that i have used to code the bot and saves you a lot of time while you coding.
