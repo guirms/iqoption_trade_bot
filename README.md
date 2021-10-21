@@ -519,12 +519,11 @@ while (True):
 * If you want to hire me, ask questions, report a bug, feel free to send me an email: guilhermesantana84@hotmail.com 😉
 
 ## Autor
-<img style="border-radius: 50%;" src="https://avatars3.githubusercontent.com/u/380327?s=460&u=61b426b901b8fe02e12019b1fdb67bf0072d4f00&v=4" width="100px;" alt=""/>
+<img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/85650237?s=400&u=d7f4d422b2997fc694f4aef4c6427b7a101242e8&v=4" width="100px;" alt=""/>
+*Made by Guilherme Machado Santana* 🖥️
 
 
-
-
-
+[my linkedin](https://www.linkedin.com/in/guilherme-machado-santana-468174216/) 
 
 
 
